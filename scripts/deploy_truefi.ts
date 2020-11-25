@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /* eslint-disable */
 
 /**
@@ -81,7 +82,6 @@ async function deploy () {
   else {
     provider = new providers.InfuraProvider(network, 'e33335b99d78415b82f8b9bc5fdc44c0')
   }
-
   const wallet = new ethers.Wallet(process.argv[2], provider)
 
   let blockNumber = await provider.getBlockNumber()
@@ -415,8 +415,6 @@ async function deployTestTokens(wallet, provider) {
   console.log('minted tru')
   await wait(controller.faucet('1000000000000000000000000', testArgs)) // mint 1 billion tru
   console.log('minted tusd')
-
-  return [tru, tusd]
 }
 
 deploy().catch(console.error)
