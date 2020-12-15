@@ -68,6 +68,12 @@ contract TrueFarm is ITrueFarm, Initializable {
     event Claim(address indexed who, uint256 amountClaimed);
 
     /**
+     * @dev Emitted when an account claims TRU rewards
+     * @param distributor New Distributor contract
+     */
+    event setDistributor(address distributor);
+
+    /**
      * @dev Initalize staking pool with a Distributor contraxct
      * The distributor contract calculates how much TRU rewards this contract
      * gets, and stores TRU for distribution.
@@ -85,6 +91,18 @@ contract TrueFarm is ITrueFarm, Initializable {
         trustToken = _trueDistributor.trustToken();
         name = _name;
         require(trueDistributor.farm() == address(this), "TrueFarm: Distributor farm is not set");
+        emit setDistributor(trueDistributor);
+    }
+
+    /**
+     * @dev set new TrueDistributor contract
+     * Requires TrueDistributor has
+     */
+    function setDistributor(ITrueDistributor newDistributor) {
+        require(newDistributor.farm() == address(this), "TrueFarm: Distributor farm is not set");
+        trueDistributor.distribute();
+        trueDistributor = newDistributor;
+        emit setDistributor(trueDistributor);
     }
 
     /**

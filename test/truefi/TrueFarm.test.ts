@@ -231,6 +231,8 @@ describe('TrueFarm', () => {
       await timeTravel(provider, DAY)
       await farm.connect(staker1).unstake(parseEther('500'), txArgs)
     })
+
+    it('changing distributor doesnt break )
   })
 
   describe('with two stakers', function () {
