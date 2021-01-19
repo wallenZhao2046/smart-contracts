@@ -196,10 +196,18 @@ describe('LoanToken', () => {
       expect(await loanToken.status()).to.equal(LoanTokenStatus.Defaulted)
     })
 
-    it('sets status to Settled if whole debt has been returned', async () => {
+    it('sets status to Settled if whole debt has been returned after term has passed', async () => {
       await loanToken.fund()
       await withdraw(borrower)
       await timeTravel(provider, yearInSeconds)
+      await tusd.mint(loanToken.address, parseEth(1100))
+      await loanToken.close()
+      expect(await loanToken.status()).to.equal(LoanTokenStatus.Settled)
+    })
+
+    it('sets status to Settled if whole debt has been returned before term has passed', async () => {
+      await loanToken.fund()
+      await withdraw(borrower)
       await tusd.mint(loanToken.address, parseEth(1100))
       await loanToken.close()
       expect(await loanToken.status()).to.equal(LoanTokenStatus.Settled)
@@ -209,14 +217,14 @@ describe('LoanToken', () => {
       await loanToken.fund()
       await withdraw(borrower)
       await timeTravel(provider, yearInSeconds + dayInSeconds / 2)
-      await expect(loanToken.close()).to.be.revertedWith('LoanToken: Borrower can still pay the loan back')
+      await expect(loanToken.close()).to.be.revertedWith('LoanToken: Loan cannot be closed yet')
       await tusd.mint(loanToken.address, parseEth(1100))
       await loanToken.close()
       expect(await loanToken.status()).to.equal(LoanTokenStatus.Settled)
     })
 
     it('reverts when closing not funded loan', async () => {
-      await expect(loanToken.close()).to.be.revertedWith('LoanToken: Current status should be Funded')
+      await expect(loanToken.close()).to.be.revertedWith('LoanToken: Current status should be Funded or Withdrawn')
     })
 
     it('reverts when closing ongoing loan', async () => {
@@ -230,7 +238,7 @@ describe('LoanToken', () => {
       await loanToken.fund()
       await timeTravel(provider, defaultedLoanCloseTime)
       await loanToken.close()
-      await expect(loanToken.close()).to.be.revertedWith('LoanToken: Current status should be Funded')
+      await expect(loanToken.close()).to.be.revertedWith('LoanToken: Current status should be Funded or Withdrawn')
     })
 
     it('emits event', async () => {
