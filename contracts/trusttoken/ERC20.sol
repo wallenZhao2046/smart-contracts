@@ -5,7 +5,6 @@
  * - Remove state variables _name, _symbol, _decimals
  * - Use state variables balances, allowances, totalSupply from ProxyStorage
  * - Remove constructor
- * - Solidity version changed from ^0.6.0 to 0.6.10
  * - Contract made abstract
  * - Remove inheritance from IERC20 because of ProxyStorage name conflicts
  *
@@ -14,7 +13,7 @@
 
 // SPDX-License-Identifier: MIT
 
-pragma solidity 0.6.10;
+pragma solidity 0.6.0;
 
 import {Context} from "../../openzeppelin/contracts/GSN/Context.sol";
 import {SafeMath} from "../../openzeppelin/contracts/math/SafeMath.sol";

@@ -5,7 +5,6 @@
  * - Remove state variables _name, _symbol, _decimals
  * - Use state variables _balances, _allowances, _totalSupply from ProxyStorage
  * - Remove constructor
- * - Solidity version changed from ^0.6.0 to 0.6.10
  * - Contract made abstract
  *
  * See also: ClaimableOwnable.sol and ProxyStorage.sol
@@ -13,7 +12,7 @@
 
 // SPDX-License-Identifier: MIT
 
-pragma solidity 0.6.10;
+pragma solidity 0.6.0;
 
 import {ClaimableOwnable} from "./ClaimableOwnable.sol";
 import {IERC20} from "../../openzeppelin/contracts/token/ERC20/IERC20.sol";

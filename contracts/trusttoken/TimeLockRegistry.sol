@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.6.10;
+pragma solidity 0.6.0;
 
 import {TimeLockedToken} from "./TimeLockedToken.sol";
 import {ClaimableContract} from "./ClaimableContract.sol";

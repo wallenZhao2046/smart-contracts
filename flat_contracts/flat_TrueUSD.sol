@@ -6,7 +6,7 @@
  *    ===   ===  ===  ======  ========  ======  ======  ======= 
  */
 
-pragma solidity 0.6.10;
+pragma solidity 0.6.0;
 
 /**
  * Defines the storage layout of the token implementation contract. Any
@@ -56,7 +56,7 @@ contract ProxyStorage {
      **/
 }
 
-pragma solidity 0.6.10;
+pragma solidity 0.6.0;
 
 /**
  * @title ClamableOwnable
@@ -519,13 +519,12 @@ library Address {
  * - Remove state variables _name, _symbol, _decimals
  * - Use state variables _balances, _allowances, _totalSupply from ProxyStorage
  * - Remove constructor
- * - Solidity version changed from ^0.6.0 to 0.6.10
  * - Contract made abstract
  *
  * See also: ClaimableOwnable.sol and ProxyStorage.sol
  */
 
-pragma solidity 0.6.10;
+pragma solidity 0.6.0;
 
 /**
  * @dev Implementation of the {IERC20} interface.
@@ -787,7 +786,7 @@ abstract contract ERC20 is ClaimableOwnable, Context, IERC20 {
     function _beforeTokenTransfer(address from, address to, uint256 amount) internal virtual { }
 }
 
-pragma solidity 0.6.10;
+pragma solidity 0.6.0;
 
 /**
  * @title ReclaimerToken
@@ -815,7 +814,7 @@ abstract contract ReclaimerToken is ERC20 {
     }
 }
 
-pragma solidity 0.6.10;
+pragma solidity 0.6.0;
 
 /**
  * @title BurnableTokenWithBounds
@@ -891,7 +890,7 @@ abstract contract BurnableTokenWithBounds is ReclaimerToken {
     }
 }
 
-pragma solidity 0.6.10;
+pragma solidity 0.6.0;
 
 /**
  * @title TrueCurrency
@@ -1060,7 +1059,7 @@ abstract contract TrueCurrency is BurnableTokenWithBounds {
     }
 }
 
-pragma solidity 0.6.10;
+pragma solidity 0.6.0;
 
 /**
  * @title TrueUSD
