@@ -929,6 +929,14 @@ contract TrueUSD is TrueCurrency {
     uint8 constant DECIMALS = 18;
     uint8 constant ROUNDING = 2;
 
+    function initialize() public {
+        require(!initialized, "already initialized");
+        owner = msg.sender;
+        burnMin = 1000000000000000000000;
+        burnMax = 1000000000000000000000000000;
+        initialized = true;
+    }
+
     function decimals() public override pure returns (uint8) {
         return DECIMALS;
     }

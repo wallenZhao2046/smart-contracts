@@ -42,6 +42,21 @@ contract Registry {
     event StartSubscription(bytes32 indexed attribute, RegistryClone indexed subscriber);
     event StopSubscription(bytes32 indexed attribute, RegistryClone indexed subscriber);
 
+    /**
+    * @dev sets the original `owner` of the contract to the sender
+    * at construction. Must then be reinitialized 
+    */
+    constructor() public {
+        owner = msg.sender;
+        emit OwnershipTransferred(address(0), owner);
+    }
+
+    function initialize() public {
+        require(!initialized, "already initialized");
+        owner = msg.sender;
+        initialized = true;
+    }
+
     // Allows a write if either a) the writer is that Registry's owner, or
     // b) the writer is writing to attribute foo and that writer already has
     // the canWriteTo-foo attribute set (in that same Registry)
