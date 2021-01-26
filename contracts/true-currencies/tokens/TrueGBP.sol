@@ -1,14 +1,14 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.6.0;
 
-import {TrueCurrencyWithGasRefund} from "../TrueCurrencyWithGasRefund.sol";
+import {TrueCurrency} from "../TrueCurrency.sol";
 
 /**
  * @title TrueGBP
  * @dev This is the top-level ERC20 contract, but most of the interesting functionality is
  * inherited - see the documentation on the corresponding contracts.
  */
-contract TrueGBP is TrueCurrencyWithGasRefund {
+contract TrueGBP is TrueCurrency {
     uint8 constant DECIMALS = 18;
     uint8 constant ROUNDING = 2;
 

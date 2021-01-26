@@ -121,8 +121,6 @@ TrustToken also reserves the right to blacklist accounts that violate the [TrueC
 #### Registered contracts
 By contacting us, you can register a contract to receive a callback when it receives tokens.
 
-### GasRefundToken.sol
-We reduce the amount of gas you pay by refunding gas during your transfer.
 
 ### TrueUSD.sol, TrueGBP.sol, etc.
 These are the top-level ERC20 contracts.

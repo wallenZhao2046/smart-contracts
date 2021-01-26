@@ -5,14 +5,8 @@ import {SafeMath} from "../../openzeppelin/contracts/math/SafeMath.sol";
 import {IERC20} from "../../openzeppelin/contracts/token/ERC20/IERC20.sol";
 import {Registry} from "../registry/Registry.sol";
 import {OwnedUpgradeabilityProxy} from "../proxy/OwnedUpgradeabilityProxy.sol";
-import {TrueCurrencyWithGasRefund} from "./TrueCurrencyWithGasRefund.sol";
+import {TrueCurrency} from "./TrueCurrency.sol";
 
-/**
- * @dev Contract that can be called with a gas refund
- */
-interface IHook {
-    function hook() external;
-}
 
 interface IHasOwner {
     function claimOwnership() external;
@@ -80,10 +74,9 @@ contract TokenController {
     address public mintKey;
     MintOperation[] public mintOperations; //list of a mint requests
 
-    TrueCurrencyWithGasRefund public token;
+    TrueCurrency public token;
     Registry public registry;
     address public registryAdmin;
-    address public gasRefunder;
 
     // Registry attributes for admin keys
     bytes32 public constant IS_MINT_PAUSER = "isTUSDMintPausers";
@@ -114,10 +107,6 @@ contract TokenController {
         _;
     }
 
-    modifier onlyGasRefunder() {
-        require(msg.sender == gasRefunder || msg.sender == owner, "must be gas refunder or owner");
-        _;
-    }
 
     modifier onlyRegistryAdmin() {
         require(msg.sender == registryAdmin || msg.sender == owner, "must be registry admin or owner");
@@ -142,7 +131,7 @@ contract TokenController {
     /// @dev Emitted when child ownership was claimed
     event RequestReclaimContract(address indexed other);
     /// @dev Emitted when child token was changed
-    event SetToken(TrueCurrencyWithGasRefund newContract);
+    event SetToken(TrueCurrency newContract);
     /// @dev Emitted when canBurn status of the `burner` was changed to `canBurn`
     event CanBurn(address burner, bool canBurn);
 
@@ -467,9 +456,6 @@ contract TokenController {
         mintKey = _newMintKey;
     }
 
-    function setGasRefunder(address refunder) external onlyOwner {
-        gasRefunder = refunder;
-    }
 
     function setRegistryAdmin(address admin) external onlyOwner {
         registryAdmin = admin;
@@ -532,7 +518,7 @@ contract TokenController {
      * @dev Update this contract's token pointer to newContract (e.g. if the
      * contract is upgraded)
      */
-    function setToken(TrueCurrencyWithGasRefund _newContract) external onlyOwner {
+    function setToken(TrueCurrency _newContract) external onlyOwner {
         token = _newContract;
         emit SetToken(_newContract);
     }
@@ -634,19 +620,4 @@ contract TokenController {
         token.setBlacklisted(account, isBlacklisted);
     }
 
-    /**
-     * Call hook in `hookContract` with gas refund
-     */
-    function refundGasWithHook(IHook hookContract) external onlyGasRefunder {
-        // calculate start gas amount
-        uint256 startGas = gasleft();
-        // call hook
-        hookContract.hook();
-        // calculate gas used
-        uint256 gasUsed = startGas.sub(gasleft());
-        // 1 refund = 15,000 gas. EVM refunds maximum half of used gas, so divide by 2.
-        // Add 20% to compensate inter contract communication
-        // (x + 20%) / 2 / 15000 = x / 25000
-        token.refundGas(gasUsed.div(25000));
-    }
 }
