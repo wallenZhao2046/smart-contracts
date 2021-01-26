@@ -17,7 +17,6 @@ pragma solidity 0.6.0;
 
 import {Context} from "../../openzeppelin/contracts/GSN/Context.sol";
 import {SafeMath} from "../../openzeppelin/contracts/math/SafeMath.sol";
-import {Address} from "../../openzeppelin/contracts/utils/Address.sol";
 import {ProxyStorage} from "./ProxyStorage.sol";
 
 // prettier-ignore
@@ -47,7 +46,6 @@ import {ProxyStorage} from "./ProxyStorage.sol";
  */
 abstract contract ERC20 is ProxyStorage, Context {
     using SafeMath for uint256;
-    using Address for address;
 
     /**
      * @dev Emitted when `value` tokens are moved from one account (`from`) to

@@ -18,7 +18,6 @@ import {ClaimableOwnable} from "./ClaimableOwnable.sol";
 import {IERC20} from "../../openzeppelin/contracts/token/ERC20/IERC20.sol";
 import {Context} from "../../openzeppelin/contracts/GSN/Context.sol";
 import {SafeMath} from "../../openzeppelin/contracts/math/SafeMath.sol";
-import {Address} from "../../openzeppelin/contracts/utils/Address.sol";
 
 // prettier-ignore
 /**
@@ -47,7 +46,6 @@ import {Address} from "../../openzeppelin/contracts/utils/Address.sol";
  */
 abstract contract ERC20 is ClaimableOwnable, Context, IERC20 {
     using SafeMath for uint256;
-    using Address for address;
 
     /**
      * @dev Returns the name of the token.
