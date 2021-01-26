@@ -16,10 +16,10 @@
 pragma solidity 0.6.10;
 
 import {ClaimableOwnable} from "./ClaimableOwnable.sol";
-import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import {Context} from "@openzeppelin/contracts/GSN/Context.sol";
-import {SafeMath} from "@openzeppelin/contracts/math/SafeMath.sol";
-import {Address} from "@openzeppelin/contracts/utils/Address.sol";
+import {IERC20} from "../../openzeppelin/contracts/token/ERC20/IERC20.sol";
+import {Context} from "../../openzeppelin/contracts/GSN/Context.sol";
+import {SafeMath} from "../../openzeppelin/contracts/math/SafeMath.sol";
+import {Address} from "../../openzeppelin/contracts/utils/Address.sol";
 
 // prettier-ignore
 /**
