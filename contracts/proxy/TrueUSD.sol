@@ -35,14 +35,14 @@ contract TrueUSD is OwnedUpgradeabilityProxy {
      * @param _min minimum amount that can be burned at once
      * @param _max maximum amount that can be burned at once
      */
-    function setBurnBounds(uint256 _min, uint256 _max) external onlyOwner {
+    function setBurnBounds(uint256 _min, uint256 _max) external {
         proxyCall();
     }
 
     /**
      * @dev See {IERC20-allowance}.
      */
-    function allowance(address owner, address spender) public view returns (uint256) {
+    function allowance(address owner, address spender) public returns (uint256) {
         proxyCall();
     }
 
@@ -60,7 +60,7 @@ contract TrueUSD is OwnedUpgradeabilityProxy {
     /**
      * @dev See {IERC20-balanceOf}.
      */
-    function balanceOf(address account) public view returns (uint256) {
+    function balanceOf(address account) public returns (uint256) {
         proxyCall();
     }
 
@@ -81,26 +81,26 @@ contract TrueUSD is OwnedUpgradeabilityProxy {
         proxyCall();
     }
 
-    function burnMax() public view returns (uint256) {
+    function burnMax() public returns (uint256) {
         proxyCall();
     }
 
-    function burnMin() public view returns (uint256) {
+    function burnMin() public returns (uint256) {
         proxyCall();
     }
 
-    function canBurn(address) public view returns (bool) {
+    function canBurn(address) public returns (bool) {
         proxyCall();
     }
 
     /**
      * @dev Allows the pendingOwner address to finalize the transfer.
      */
-    function claimOwnership() public onyPendingOwner {
+    function claimOwnership() public {
         proxyCall();
     }
 
-    function decimals() public pure returns (uint8) {
+    function decimals() public returns (uint8) {
         proxyCall();
     }
 
@@ -122,15 +122,15 @@ contract TrueUSD is OwnedUpgradeabilityProxy {
         proxyCall();
     }
 
-    function name() public pure returns (string memory) {
+    function name() public returns (string memory) {
         proxyCall();
     }
 
-    function owner() public view returns (address) {
+    function owner() public returns (address) {
         proxyCall();
     }
 
-    function pendingOwner() public view returns (address) {
+    function pendingOwner() public returns (address) {
         proxyCall();
     }
 
@@ -138,7 +138,7 @@ contract TrueUSD is OwnedUpgradeabilityProxy {
      * @dev send all eth balance in the contract to another address
      * @param _to address to send eth balance to
      */
-    function reclaimEther(address payable _to) external onlyOwner {
+    function reclaimEther(address payable _to) external {
         proxyCall();
     }
 
@@ -148,18 +148,18 @@ contract TrueUSD is OwnedUpgradeabilityProxy {
      * @param token token to reclaim
      * @param _to address to send eth balance to
      */
-    function reclaimToken(IERC20 token, address _to) external onlyOwner {
+    function reclaimToken(address token, address _to) external {
         proxyCall();
     }
 
-    function symbol() public pure returns (string memory) {
+    function symbol() public returns (string memory) {
         proxyCall();
     }
 
     /**
      * @dev See {IERC20-totalSupply}.
      */
-    function totalSupply() public view returns (uint256) {
+    function totalSupply() public returns (uint256) {
         proxyCall();
     }
 
@@ -195,7 +195,7 @@ contract TrueUSD is OwnedUpgradeabilityProxy {
      * @dev Allows the current owner to set the pendingOwner address.
      * @param newOwner The address to transfer ownership to.
      */
-    function transferOwnership(address newOwner) public onlyOwner {
+    function transferOwnership(address newOwner) public {
         proxyCall();
     }
 }
