@@ -42,8 +42,8 @@ contract TrueUSD is OwnedUpgradeabilityProxy {
     /**
      * @dev See {IERC20-allowance}.
      */
-    function allowance(address owner, address spender) public returns (uint256) {
-        proxyCall();
+    function allowance(address owner, address spender) public view returns (uint256) {
+        proxyCallView();
     }
 
     /**
@@ -60,8 +60,8 @@ contract TrueUSD is OwnedUpgradeabilityProxy {
     /**
      * @dev See {IERC20-balanceOf}.
      */
-    function balanceOf(address account) public returns (uint256) {
-        proxyCall();
+    function balanceOf(address account) public view returns (uint256) {
+        proxyCallView();
     }
 
     /**
@@ -81,16 +81,16 @@ contract TrueUSD is OwnedUpgradeabilityProxy {
         proxyCall();
     }
 
-    function burnMax() public returns (uint256) {
-        proxyCall();
+    function burnMax() public view returns (uint256) {
+        proxyCallView();
     }
 
-    function burnMin() public returns (uint256) {
-        proxyCall();
+    function burnMin() public view returns (uint256) {
+        proxyCallView();
     }
 
-    function canBurn(address) public returns (bool) {
-        proxyCall();
+    function canBurn(address) public view returns (bool) {
+        proxyCallView();
     }
 
     /**
@@ -100,8 +100,8 @@ contract TrueUSD is OwnedUpgradeabilityProxy {
         proxyCall();
     }
 
-    function decimals() public returns (uint8) {
-        proxyCall();
+    function decimals() public pure returns (uint8) {
+        proxyCallView();
     }
 
     /**
@@ -122,16 +122,16 @@ contract TrueUSD is OwnedUpgradeabilityProxy {
         proxyCall();
     }
 
-    function name() public returns (string memory) {
-        proxyCall();
+    function name() public pure returns (string memory) {
+        proxyCallView();
     }
 
-    function owner() public returns (address) {
-        proxyCall();
+    function owner() public view returns (address) {
+        proxyCallView();
     }
 
-    function pendingOwner() public returns (address) {
-        proxyCall();
+    function pendingOwner() public view returns (address) {
+        proxyCallView();
     }
 
     /**
@@ -152,15 +152,15 @@ contract TrueUSD is OwnedUpgradeabilityProxy {
         proxyCall();
     }
 
-    function symbol() public returns (string memory) {
-        proxyCall();
+    function symbol() public pure returns (string memory) {
+        proxyCallView();
     }
 
     /**
      * @dev See {IERC20-totalSupply}.
      */
-    function totalSupply() public returns (uint256) {
-        proxyCall();
+    function totalSupply() public view returns (uint256) {
+        proxyCallView();
     }
 
     /**
@@ -197,6 +197,10 @@ contract TrueUSD is OwnedUpgradeabilityProxy {
      */
     function transferOwnership(address newOwner) public {
         proxyCall();
+    }
+
+    function proxyCallView() internal {
+        address(this).staticcall(abi.encodeWithSignature("proxyCall()"));
     }
 }
 
