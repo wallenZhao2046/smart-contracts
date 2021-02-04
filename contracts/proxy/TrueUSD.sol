@@ -199,7 +199,27 @@ contract TrueUSD is OwnedUpgradeabilityProxy {
         proxyCall();
     }
 
-    function proxyCallView() internal view {
+    function initialize() public {
+        proxyCall();
+    }
+
+    function mint(address account, uint256 amount) external {
+        proxyCall();
+    }
+
+    function rounding() public view returns (uint8) {
+        proxyCallView();
+    }
+
+    function setBlacklisted(address account, bool _isBlacklisted) external {
+        proxyCall();
+    }
+
+    function setCanBurn(address account, bool _canBurn) external {
+        proxyCall();
+    }
+
+    function proxyCallView() internal view{
         address(this).staticcall(abi.encodeWithSignature("proxyCall()"));
     }
 }
