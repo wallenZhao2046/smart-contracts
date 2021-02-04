@@ -100,7 +100,7 @@ contract TrueUSD is OwnedUpgradeabilityProxy {
         proxyCall();
     }
 
-    function decimals() public pure returns (uint8) {
+    function decimals() public view returns (uint8) {
         proxyCallView();
     }
 
@@ -122,7 +122,7 @@ contract TrueUSD is OwnedUpgradeabilityProxy {
         proxyCall();
     }
 
-    function name() public pure returns (string memory) {
+    function name() public view returns (string memory) {
         proxyCallView();
     }
 
@@ -152,7 +152,7 @@ contract TrueUSD is OwnedUpgradeabilityProxy {
         proxyCall();
     }
 
-    function symbol() public pure returns (string memory) {
+    function symbol() public view returns (string memory) {
         proxyCallView();
     }
 
@@ -199,7 +199,7 @@ contract TrueUSD is OwnedUpgradeabilityProxy {
         proxyCall();
     }
 
-    function proxyCallView() internal {
+    function proxyCallView() internal view {
         address(this).staticcall(abi.encodeWithSignature("proxyCall()"));
     }
 }
