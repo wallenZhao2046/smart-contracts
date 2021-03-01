@@ -54,6 +54,7 @@ contract Registry {
     function initialize() public {
         require(!initialized, "already initialized");
         owner = msg.sender;
+        emit OwnershipTransferred(address(0), owner);
         initialized = true;
     }
 

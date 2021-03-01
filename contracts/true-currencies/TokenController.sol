@@ -202,6 +202,7 @@ contract TokenController {
     function initialize() public {
         require(!initialized, "already initialized");
         owner = msg.sender;
+        emit OwnershipTransferred(address(0), owner);
 
         instantMintThreshold = 150_000_000_000_000_000_000_000_000;
         ratifiedMintThreshold = 300_000_000_000_000_000_000_000_000;

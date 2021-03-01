@@ -28,13 +28,6 @@ contract ProxyStorage {
     mapping(address => uint256) _balances;
     mapping(address => mapping(address => uint256)) _allowances;
 
-    // true reward allocation
-    // proportion: 1000 = 100%
-    struct RewardAllocation {
-        uint256 proportion;
-        address finOp;
-    }
-
     mapping(address => bool) isBlacklisted;
     mapping(address => bool) public canBurn;
 
@@ -977,6 +970,8 @@ contract TrueUSD is TrueCurrency {
     function initialize() public {
         require(!initialized, "already initialized");
         owner = msg.sender;
+        emit OwnershipTransferred(address(0), owner);
+        
         burnMin = 1000000000000000000000;
         burnMax = 1000000000000000000000000000;
         initialized = true;

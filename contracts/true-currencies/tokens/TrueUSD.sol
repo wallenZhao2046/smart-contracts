@@ -15,6 +15,7 @@ contract TrueUSD is TrueCurrency {
     function initialize() public {
         require(!initialized, "already initialized");
         owner = msg.sender;
+        emit OwnershipTransferred(address(0), owner);
         burnMin = 1000000000000000000000;
         burnMax = 1000000000000000000000000000;
         initialized = true;
