@@ -85,7 +85,7 @@ contract TokenController {
 
     // paused version of TrueCurrency in Production
     // pausing the contract upgrades the proxy to this implementation
-    address public constant PAUSED_IMPLEMENTATION = 0x3c8984DCE8f68FCDEEEafD9E0eca3598562eD291;
+    address public constant PAUSED_IMPLEMENTATION = 0x9821722854922f004a9EE24d8aedF3D422745062;
 
     modifier onlyMintKeyOrOwner() {
         require(msg.sender == mintKey || msg.sender == owner, "must be mintKey or owner");
