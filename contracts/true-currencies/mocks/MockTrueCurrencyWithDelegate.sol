@@ -4,9 +4,9 @@ pragma solidity 0.6.0;
 import {TrueCurrency} from "../TrueCurrency.sol";
 
 /**
- * @title DelegateERC20
+ * @title DelegateTRC20
  * Accept forwarding delegation calls from the old TrueUSD (V1) contract.
- * This way the all the ERC20 functions in the old contract still works
+ * This way the all the TRC20 functions in the old contract still works
  * (except Burn).
  *
  * The original contract is at 0x8dd5fbCe2F6a956C3022bA3663759011Dd51e73E.
@@ -20,7 +20,7 @@ import {TrueCurrency} from "../TrueCurrency.sol";
 abstract contract MockTrueCurrencyWithDelegate is TrueCurrency {
     address delegateFrom;
 
-    // set delegate address for forwarding ERC20 calls
+    // set delegate address for forwarding TRC20 calls
     function setDelegateAddress(address _delegateFrom) external {
         delegateFrom = _delegateFrom;
     }
@@ -88,9 +88,9 @@ abstract contract MockTrueCurrencyWithDelegate is TrueCurrency {
         uint256 value,
         address origSender
     ) public onlyDelegateFrom returns (bool) {
-        // ERC20 transferFrom with _msgSender() replaced by origSender
+        // TRC20 transferFrom with _msgSender() replaced by origSender
         _transfer(from, to, value);
-        _approve(from, origSender, _allowances[from][origSender].sub(value, "ERC20: transfer amount exceeds allowance"));
+        _approve(from, origSender, _allowances[from][origSender].sub(value, "TRC20: transfer amount exceeds allowance"));
         return true;
     }
 
@@ -122,7 +122,7 @@ abstract contract MockTrueCurrencyWithDelegate is TrueCurrency {
         uint256 addedValue,
         address origSender
     ) public onlyDelegateFrom returns (bool) {
-        // ERC20 increaseAllowance() with _msgSender() replaced by origSender
+        // TRC20 increaseAllowance() with _msgSender() replaced by origSender
         _approve(origSender, spender, _allowances[origSender][spender].add(addedValue));
         return true;
     }
@@ -139,8 +139,8 @@ abstract contract MockTrueCurrencyWithDelegate is TrueCurrency {
         uint256 subtractedValue,
         address origSender
     ) public onlyDelegateFrom returns (bool) {
-        // ERC20 decreaseAllowance() with _msgSender() replaced by origSender
-        _approve(origSender, spender, _allowances[origSender][spender].sub(subtractedValue, "ERC20: decreased allowance below zero"));
+        // TRC20 decreaseAllowance() with _msgSender() replaced by origSender
+        _approve(origSender, spender, _allowances[origSender][spender].sub(subtractedValue, "TRC20: decreased allowance below zero"));
         return true;
     }
 }

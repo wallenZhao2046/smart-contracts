@@ -5,7 +5,7 @@ import {TrueCurrency} from "../TrueCurrency.sol";
 
 /**
  * @title TrueGBP
- * @dev This is the top-level ERC20 contract, but most of the interesting functionality is
+ * @dev This is the top-level TRC20 contract, but most of the interesting functionality is
  * inherited - see the documentation on the corresponding contracts.
  */
 contract TrueGBP is TrueCurrency {

@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.6.0;
 
-import {ERC20} from "../ERC20.sol";
+import {TRC20} from "../TRC20.sol";
 
-interface IDelegateERC20 {
+interface IDelegateTRC20 {
     function delegateTotalSupply() external view returns (uint256);
 
     function delegateBalanceOf(address who) external view returns (uint256);
@@ -43,17 +43,17 @@ interface IDelegateERC20 {
 }
 
 /**
- * Mock Legacy TUSD contract. Forwards calls to delegate ERC20 contract
+ * Mock Legacy TUSD contract. Forwards calls to delegate TRC20 contract
  */
-contract MockDelegateERC20 is ERC20 {
+contract MockDelegateTRC20 is TRC20 {
     // If this contract needs to be upgraded, the new contract will be stored
-    // in 'delegate' and any ERC20 calls to this contract will be delegated to that one.
-    IDelegateERC20 public delegate;
+    // in 'delegate' and any TRC20 calls to this contract will be delegated to that one.
+    IDelegateTRC20 public delegate;
 
     event DelegatedTo(address indexed newContract);
 
     // Can undelegate by passing in newContract = address(0)
-    function delegateToNewContract(IDelegateERC20 newContract) public {
+    function delegateToNewContract(IDelegateTRC20 newContract) public {
         delegate = newContract;
         emit DelegatedTo(address(delegate));
     }
@@ -62,7 +62,7 @@ contract MockDelegateERC20 is ERC20 {
      * @dev Returns the name of the token.
      */
     function name() public virtual override pure returns (string memory) {
-        return "DelegateERC20";
+        return "DelegateTRC20";
     }
 
     /**
@@ -70,10 +70,10 @@ contract MockDelegateERC20 is ERC20 {
      * name.
      */
     function symbol() public virtual override pure returns (string memory) {
-        return "DERC20";
+        return "DTRC20";
     }
 
-    // If a delegate has been designated, all ERC20 calls are forwarded to it
+    // If a delegate has been designated, all TRC20 calls are forwarded to it
     function transfer(address to, uint256 value) public virtual override returns (bool) {
         if (address(delegate) == address(0)) {
             return super.transfer(to, value);

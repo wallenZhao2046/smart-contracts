@@ -2,9 +2,9 @@
 pragma solidity 0.6.0;
 
 import {Registry} from "../../registry/Registry.sol";
-import {ERC20} from "../ERC20.sol";
+import {TRC20} from "../TRC20.sol";
 
-contract MockERC20Token is ERC20 {
+contract MockTRC20Token is TRC20 {
     Registry registryAddress;
 
     function registry() public view returns (Registry) {

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.6.0;
 
-import {IERC20} from "../../openzeppelin/contracts/token/ERC20/IERC20.sol";
+import {ITRC20} from "../true-currencies/ITRC20.sol";
 
 interface RegistryClone {
     function syncAttributeValue(
@@ -24,7 +24,7 @@ contract Registry {
     address public pendingOwner;
     bool initialized;
 
-    // Stores arbitrary attributes for users. An example use case is an IERC20
+    // Stores arbitrary attributes for users. An example use case is an ITRC20
     // token that requires its users to go through a KYC/AML check - in this case
     // a validator can set an account's "hasPassedKYC/AML" attribute to 1 to indicate
     // that account can use the token. This mapping stores that value (1, in the
@@ -163,11 +163,11 @@ contract Registry {
         }
     }
 
-    function reclaimEther(address payable _to) external onlyOwner {
+    function reclaimTrx(address payable _to) external onlyOwner {
         _to.transfer(address(this).balance);
     }
 
-    function reclaimToken(IERC20 token, address _to) external onlyOwner {
+    function reclaimToken(ITRC20 token, address _to) external onlyOwner {
         uint256 balance = token.balanceOf(address(this));
         token.transfer(_to, balance);
     }

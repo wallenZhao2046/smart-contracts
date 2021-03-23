@@ -2,7 +2,7 @@
 pragma solidity 0.6.0;
 
 import {SafeMath} from "../../openzeppelin/contracts/math/SafeMath.sol";
-import {IERC20} from "../../openzeppelin/contracts/token/ERC20/IERC20.sol";
+import {ITRC20} from "./ITRC20.sol";
 import {Registry} from "../registry/Registry.sol";
 import {OwnedUpgradeabilityProxy} from "../proxy/OwnedUpgradeabilityProxy.sol";
 import {TrueCurrency} from "./TrueCurrency.sol";
@@ -577,10 +577,10 @@ contract TokenController {
     }
 
     /**
-     * @dev send all ether in token address to the owner of tokenController
+     * @dev send all trx in token address to the owner of tokenController
      */
-    function requestReclaimEther() external onlyOwner {
-        token.reclaimEther(owner);
+    function requestReclaimTrx() external onlyOwner {
+        token.reclaimTrx(owner);
     }
 
     /**
@@ -588,7 +588,7 @@ contract TokenController {
      * owner of tokenController
      * @param _token token address of the token to transfer
      */
-    function requestReclaimToken(IERC20 _token) external onlyOwner {
+    function requestReclaimToken(ITRC20 _token) external onlyOwner {
         token.reclaimToken(_token, owner);
     }
 
@@ -610,19 +610,19 @@ contract TokenController {
     }
 
     /**
-     * @dev Owner can send ether balance in contract address
+     * @dev Owner can send trx balance in contract address
      * @param _to address to which the funds will be send to
      */
-    function reclaimEther(address payable _to) external onlyOwner {
+    function reclaimTrx(address payable _to) external onlyOwner {
         _to.transfer(address(this).balance);
     }
 
     /**
-     * @dev Owner can send erc20 token balance in contract address
+     * @dev Owner can send trc20 token balance in contract address
      * @param _token address of the token to send
      * @param _to address to which the funds will be send to
      */
-    function reclaimToken(IERC20 _token, address _to) external onlyOwner {
+    function reclaimToken(ITRC20 _token, address _to) external onlyOwner {
         uint256 balance = _token.balanceOf(address(this));
         _token.transfer(_to, balance);
     }

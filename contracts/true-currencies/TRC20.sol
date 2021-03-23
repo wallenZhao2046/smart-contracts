@@ -15,13 +15,13 @@
 pragma solidity 0.6.0;
 
 import {ClaimableOwnable} from "./ClaimableOwnable.sol";
-import {IERC20} from "../../openzeppelin/contracts/token/ERC20/IERC20.sol";
+import {ITRC20} from "./ITRC20.sol";
 import {Context} from "../../openzeppelin/contracts/GSN/Context.sol";
 import {SafeMath} from "../../openzeppelin/contracts/math/SafeMath.sol";
 
 // prettier-ignore
 /**
- * @dev Implementation of the {IERC20} interface.
+ * @dev Implementation of the {ITRC20} interface.
  *
  * This implementation is agnostic to the way tokens are created. This means
  * that a supply mechanism has to be added in a derived contract using {_mint}.
@@ -42,9 +42,9 @@ import {SafeMath} from "../../openzeppelin/contracts/math/SafeMath.sol";
  *
  * Finally, the non-standard {decreaseAllowance} and {increaseAllowance}
  * functions have been added to mitigate the well-known issues around setting
- * allowances. See {IERC20-approve}.
+ * allowances. See {ITRC20-approve}.
  */
-abstract contract ERC20 is ClaimableOwnable, Context, IERC20 {
+abstract contract TRC20 is ClaimableOwnable, Context, ITRC20 {
     using SafeMath for uint256;
 
     /**
@@ -64,33 +64,33 @@ abstract contract ERC20 is ClaimableOwnable, Context, IERC20 {
      * be displayed to a user as `5,05` (`505 / 10 ** 2`).
      *
      * Tokens usually opt for a value of 18, imitating the relationship between
-     * Ether and Wei. This is the value {ERC20} uses, unless {_setupDecimals} is
+     * Trx and Sun. This is the value {TRC20} uses, unless {_setupDecimals} is
      * called.
      *
      * NOTE: This information is only used for _display_ purposes: it in
      * no way affects any of the arithmetic of the contract, including
-     * {IERC20-balanceOf} and {IERC20-transfer}.
+     * {ITRC20-balanceOf} and {ITRC20-transfer}.
      */
     function decimals() public virtual pure returns (uint8) {
         return 18;
     }
 
     /**
-     * @dev See {IERC20-totalSupply}.
+     * @dev See {ITRC20-totalSupply}.
      */
     function totalSupply() public view virtual override returns (uint256) {
         return _totalSupply;
     }
 
     /**
-     * @dev See {IERC20-balanceOf}.
+     * @dev See {ITRC20-balanceOf}.
      */
     function balanceOf(address account) public view virtual override returns (uint256) {
         return _balances[account];
     }
 
     /**
-     * @dev See {IERC20-transfer}.
+     * @dev See {ITRC20-transfer}.
      *
      * Requirements:
      *
@@ -103,14 +103,14 @@ abstract contract ERC20 is ClaimableOwnable, Context, IERC20 {
     }
 
     /**
-     * @dev See {IERC20-allowance}.
+     * @dev See {ITRC20-allowance}.
      */
     function allowance(address owner, address spender) public view virtual override returns (uint256) {
         return _allowances[owner][spender];
     }
 
     /**
-     * @dev See {IERC20-approve}.
+     * @dev See {ITRC20-approve}.
      *
      * Requirements:
      *
@@ -122,10 +122,10 @@ abstract contract ERC20 is ClaimableOwnable, Context, IERC20 {
     }
 
     /**
-     * @dev See {IERC20-transferFrom}.
+     * @dev See {ITRC20-transferFrom}.
      *
      * Emits an {Approval} event indicating the updated allowance. This is not
-     * required by the EIP. See the note at the beginning of {ERC20};
+     * required by the EIP. See the note at the beginning of {TRC20};
      *
      * Requirements:
      * - `sender` and `recipient` cannot be the zero address.
@@ -135,7 +135,7 @@ abstract contract ERC20 is ClaimableOwnable, Context, IERC20 {
      */
     function transferFrom(address sender, address recipient, uint256 amount) public virtual override returns (bool) {
         _transfer(sender, recipient, amount);
-        _approve(sender, _msgSender(), _allowances[sender][_msgSender()].sub(amount, "ERC20: transfer amount exceeds allowance"));
+        _approve(sender, _msgSender(), _allowances[sender][_msgSender()].sub(amount, "TRC20: transfer amount exceeds allowance"));
         return true;
     }
 
@@ -143,7 +143,7 @@ abstract contract ERC20 is ClaimableOwnable, Context, IERC20 {
      * @dev Atomically increases the allowance granted to `spender` by the caller.
      *
      * This is an alternative to {approve} that can be used as a mitigation for
-     * problems described in {IERC20-approve}.
+     * problems described in {ITRC20-approve}.
      *
      * Emits an {Approval} event indicating the updated allowance.
      *
@@ -160,7 +160,7 @@ abstract contract ERC20 is ClaimableOwnable, Context, IERC20 {
      * @dev Atomically decreases the allowance granted to `spender` by the caller.
      *
      * This is an alternative to {approve} that can be used as a mitigation for
-     * problems described in {IERC20-approve}.
+     * problems described in {ITRC20-approve}.
      *
      * Emits an {Approval} event indicating the updated allowance.
      *
@@ -171,7 +171,7 @@ abstract contract ERC20 is ClaimableOwnable, Context, IERC20 {
      * `subtractedValue`.
      */
     function decreaseAllowance(address spender, uint256 subtractedValue) public virtual returns (bool) {
-        _approve(_msgSender(), spender, _allowances[_msgSender()][spender].sub(subtractedValue, "ERC20: decreased allowance below zero"));
+        _approve(_msgSender(), spender, _allowances[_msgSender()][spender].sub(subtractedValue, "TRC20: decreased allowance below zero"));
         return true;
     }
 
@@ -190,12 +190,12 @@ abstract contract ERC20 is ClaimableOwnable, Context, IERC20 {
      * - `sender` must have a balance of at least `amount`.
      */
     function _transfer(address sender, address recipient, uint256 amount) internal virtual {
-        require(sender != address(0), "ERC20: transfer from the zero address");
-        require(recipient != address(0), "ERC20: transfer to the zero address");
+        require(sender != address(0), "TRC20: transfer from the zero address");
+        require(recipient != address(0), "TRC20: transfer to the zero address");
 
         _beforeTokenTransfer(sender, recipient, amount);
 
-        _balances[sender] = _balances[sender].sub(amount, "ERC20: transfer amount exceeds balance");
+        _balances[sender] = _balances[sender].sub(amount, "TRC20: transfer amount exceeds balance");
         _balances[recipient] = _balances[recipient].add(amount);
         emit Transfer(sender, recipient, amount);
     }
@@ -210,7 +210,7 @@ abstract contract ERC20 is ClaimableOwnable, Context, IERC20 {
      * - `to` cannot be the zero address.
      */
     function _mint(address account, uint256 amount) internal virtual {
-        require(account != address(0), "ERC20: mint to the zero address");
+        require(account != address(0), "TRC20: mint to the zero address");
 
         _beforeTokenTransfer(address(0), account, amount);
 
@@ -231,11 +231,11 @@ abstract contract ERC20 is ClaimableOwnable, Context, IERC20 {
      * - `account` must have at least `amount` tokens.
      */
     function _burn(address account, uint256 amount) internal virtual {
-        require(account != address(0), "ERC20: burn from the zero address");
+        require(account != address(0), "TRC20: burn from the zero address");
 
         _beforeTokenTransfer(account, address(0), amount);
 
-        _balances[account] = _balances[account].sub(amount, "ERC20: burn amount exceeds balance");
+        _balances[account] = _balances[account].sub(amount, "TRC20: burn amount exceeds balance");
         _totalSupply = _totalSupply.sub(amount);
         emit Transfer(account, address(0), amount);
     }
@@ -254,8 +254,8 @@ abstract contract ERC20 is ClaimableOwnable, Context, IERC20 {
      * - `spender` cannot be the zero address.
      */
     function _approve(address owner, address spender, uint256 amount) internal virtual {
-        require(owner != address(0), "ERC20: approve from the zero address");
-        require(spender != address(0), "ERC20: approve to the zero address");
+        require(owner != address(0), "TRC20: approve from the zero address");
+        require(spender != address(0), "TRC20: approve to the zero address");
 
         _allowances[owner][spender] = amount;
         emit Approval(owner, spender, amount);
