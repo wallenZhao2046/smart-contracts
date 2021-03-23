@@ -108,10 +108,10 @@ contract ClaimableOwnable is ProxyStorage {
     }
 }
 
-pragma solidity >=0.6.0 <0.8.0;
+pragma solidity ^0.6.0;
 
 /**
- * @dev Interface of the TRC20 standard as defined in the EIP.
+ * @dev Interface of the TRC20 standard as defined in the TIP.
  */
 interface ITRC20 {
     /**
@@ -184,7 +184,7 @@ interface ITRC20 {
     event Approval(address indexed owner, address indexed spender, uint256 value);
 }
 
-pragma solidity >=0.6.0 <0.8.0;
+pragma solidity ^0.6.0;
 
 /*
  * @dev Provides information about the current execution context, including the
@@ -207,7 +207,7 @@ abstract contract Context {
     }
 }
 
-pragma solidity >=0.6.0 <0.8.0;
+pragma solidity ^0.6.0;
 
 /**
  * @dev Wrappers over Solidity's arithmetic operations with added overflow
@@ -441,7 +441,7 @@ pragma solidity 0.6.0;
  *
  * Additionally, an {Approval} event is emitted on calls to {transferFrom}.
  * This allows applications to reconstruct the allowance for all accounts just
- * by listening to said events. Other implementations of the EIP may not emit
+ * by listening to said events. Other implementations of the TIP may not emit
  * these events, as it isn't required by the specification.
  *
  * Finally, the non-standard {decreaseAllowance} and {increaseAllowance}
@@ -467,9 +467,8 @@ abstract contract TRC20 is ClaimableOwnable, Context, ITRC20 {
      * For example, if `decimals` equals `2`, a balance of `505` tokens should
      * be displayed to a user as `5,05` (`505 / 10 ** 2`).
      *
-     * Tokens usually opt for a value of 18, imitating the relationship between
-     * Trx and Sun. This is the value {TRC20} uses, unless {_setupDecimals} is
-     * called.
+     * Tokens usually opt for a value of 18. This is the value {TRC20} uses, 
+     * unless {_setupDecimals} is called.
      *
      * NOTE: This information is only used for _display_ purposes: it in
      * no way affects any of the arithmetic of the contract, including
@@ -529,7 +528,7 @@ abstract contract TRC20 is ClaimableOwnable, Context, ITRC20 {
      * @dev See {ITRC20-transferFrom}.
      *
      * Emits an {Approval} event indicating the updated allowance. This is not
-     * required by the EIP. See the note at the beginning of {TRC20};
+     * required by the TIP. See the note at the beginning of {TRC20};
      *
      * Requirements:
      * - `sender` and `recipient` cannot be the zero address.
