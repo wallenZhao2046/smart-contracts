@@ -6,12 +6,12 @@
  *    ===   ===  ===  ======  ========  ======  ======  ======= 
  */
 
-pragma solidity ^0.6.0;
+pragma solidity >=0.6.0 <0.8.0;
 
 /**
- * @dev Interface of the ERC20 standard as defined in the EIP.
+ * @dev Interface of the TRC20 standard as defined in the EIP.
  */
-interface IERC20 {
+interface ITRC20 {
     /**
      * @dev Returns the amount of tokens in existence.
      */
@@ -105,7 +105,7 @@ contract Registry {
     address public pendingOwner;
     bool initialized;
 
-    // Stores arbitrary attributes for users. An example use case is an IERC20
+    // Stores arbitrary attributes for users. An example use case is an ITRC20
     // token that requires its users to go through a KYC/AML check - in this case
     // a validator can set an account's "hasPassedKYC/AML" attribute to 1 to indicate
     // that account can use the token. This mapping stores that value (1, in the
@@ -244,11 +244,11 @@ contract Registry {
         }
     }
 
-    function reclaimEther(address payable _to) external onlyOwner {
+    function reclaimTrx(address payable _to) external onlyOwner {
         _to.transfer(address(this).balance);
     }
 
-    function reclaimToken(IERC20 token, address _to) external onlyOwner {
+    function reclaimToken(ITRC20 token, address _to) external onlyOwner {
         uint256 balance = token.balanceOf(address(this));
         token.transfer(_to, balance);
     }

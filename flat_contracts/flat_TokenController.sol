@@ -6,7 +6,7 @@
  *    ===   ===  ===  ======  ========  ======  ======  ======= 
  */
 
-pragma solidity ^0.6.0;
+pragma solidity >=0.6.0 <0.8.0;
 
 /**
  * @dev Wrappers over Solidity's arithmetic operations with added overflow
@@ -209,12 +209,12 @@ library SafeMath {
     }
 }
 
-pragma solidity ^0.6.0;
+pragma solidity >=0.6.0 <0.8.0;
 
 /**
- * @dev Interface of the ERC20 standard as defined in the EIP.
+ * @dev Interface of the TRC20 standard as defined in the EIP.
  */
-interface IERC20 {
+interface ITRC20 {
     /**
      * @dev Returns the amount of tokens in existence.
      */
@@ -308,7 +308,7 @@ contract Registry {
     address public pendingOwner;
     bool initialized;
 
-    // Stores arbitrary attributes for users. An example use case is an IERC20
+    // Stores arbitrary attributes for users. An example use case is an ITRC20
     // token that requires its users to go through a KYC/AML check - in this case
     // a validator can set an account's "hasPassedKYC/AML" attribute to 1 to indicate
     // that account can use the token. This mapping stores that value (1, in the
@@ -447,11 +447,11 @@ contract Registry {
         }
     }
 
-    function reclaimEther(address payable _to) external onlyOwner {
+    function reclaimTrx(address payable _to) external onlyOwner {
         _to.transfer(address(this).balance);
     }
 
-    function reclaimToken(IERC20 token, address _to) external onlyOwner {
+    function reclaimToken(ITRC20 token, address _to) external onlyOwner {
         uint256 balance = token.balanceOf(address(this));
         token.transfer(_to, balance);
     }
@@ -767,7 +767,7 @@ contract ClaimableOwnable is ProxyStorage {
     }
 }
 
-pragma solidity ^0.6.0;
+pragma solidity >=0.6.0 <0.8.0;
 
 /*
  * @dev Provides information about the current execution context, including the
@@ -805,7 +805,7 @@ abstract contract Context {
 pragma solidity 0.6.0;
 
 /**
- * @dev Implementation of the {IERC20} interface.
+ * @dev Implementation of the {ITRC20} interface.
  *
  * This implementation is agnostic to the way tokens are created. This means
  * that a supply mechanism has to be added in a derived contract using {_mint}.
@@ -826,9 +826,9 @@ pragma solidity 0.6.0;
  *
  * Finally, the non-standard {decreaseAllowance} and {increaseAllowance}
  * functions have been added to mitigate the well-known issues around setting
- * allowances. See {IERC20-approve}.
+ * allowances. See {ITRC20-approve}.
  */
-abstract contract ERC20 is ClaimableOwnable, Context, IERC20 {
+abstract contract TRC20 is ClaimableOwnable, Context, ITRC20 {
     using SafeMath for uint256;
 
     /**
@@ -848,33 +848,33 @@ abstract contract ERC20 is ClaimableOwnable, Context, IERC20 {
      * be displayed to a user as `5,05` (`505 / 10 ** 2`).
      *
      * Tokens usually opt for a value of 18, imitating the relationship between
-     * Ether and Wei. This is the value {ERC20} uses, unless {_setupDecimals} is
+     * Trx and Sun. This is the value {TRC20} uses, unless {_setupDecimals} is
      * called.
      *
      * NOTE: This information is only used for _display_ purposes: it in
      * no way affects any of the arithmetic of the contract, including
-     * {IERC20-balanceOf} and {IERC20-transfer}.
+     * {ITRC20-balanceOf} and {ITRC20-transfer}.
      */
     function decimals() public virtual pure returns (uint8) {
         return 18;
     }
 
     /**
-     * @dev See {IERC20-totalSupply}.
+     * @dev See {ITRC20-totalSupply}.
      */
     function totalSupply() public view virtual override returns (uint256) {
         return _totalSupply;
     }
 
     /**
-     * @dev See {IERC20-balanceOf}.
+     * @dev See {ITRC20-balanceOf}.
      */
     function balanceOf(address account) public view virtual override returns (uint256) {
         return _balances[account];
     }
 
     /**
-     * @dev See {IERC20-transfer}.
+     * @dev See {ITRC20-transfer}.
      *
      * Requirements:
      *
@@ -887,14 +887,14 @@ abstract contract ERC20 is ClaimableOwnable, Context, IERC20 {
     }
 
     /**
-     * @dev See {IERC20-allowance}.
+     * @dev See {ITRC20-allowance}.
      */
     function allowance(address owner, address spender) public view virtual override returns (uint256) {
         return _allowances[owner][spender];
     }
 
     /**
-     * @dev See {IERC20-approve}.
+     * @dev See {ITRC20-approve}.
      *
      * Requirements:
      *
@@ -906,10 +906,10 @@ abstract contract ERC20 is ClaimableOwnable, Context, IERC20 {
     }
 
     /**
-     * @dev See {IERC20-transferFrom}.
+     * @dev See {ITRC20-transferFrom}.
      *
      * Emits an {Approval} event indicating the updated allowance. This is not
-     * required by the EIP. See the note at the beginning of {ERC20};
+     * required by the EIP. See the note at the beginning of {TRC20};
      *
      * Requirements:
      * - `sender` and `recipient` cannot be the zero address.
@@ -919,7 +919,7 @@ abstract contract ERC20 is ClaimableOwnable, Context, IERC20 {
      */
     function transferFrom(address sender, address recipient, uint256 amount) public virtual override returns (bool) {
         _transfer(sender, recipient, amount);
-        _approve(sender, _msgSender(), _allowances[sender][_msgSender()].sub(amount, "ERC20: transfer amount exceeds allowance"));
+        _approve(sender, _msgSender(), _allowances[sender][_msgSender()].sub(amount, "TRC20: transfer amount exceeds allowance"));
         return true;
     }
 
@@ -927,7 +927,7 @@ abstract contract ERC20 is ClaimableOwnable, Context, IERC20 {
      * @dev Atomically increases the allowance granted to `spender` by the caller.
      *
      * This is an alternative to {approve} that can be used as a mitigation for
-     * problems described in {IERC20-approve}.
+     * problems described in {ITRC20-approve}.
      *
      * Emits an {Approval} event indicating the updated allowance.
      *
@@ -944,7 +944,7 @@ abstract contract ERC20 is ClaimableOwnable, Context, IERC20 {
      * @dev Atomically decreases the allowance granted to `spender` by the caller.
      *
      * This is an alternative to {approve} that can be used as a mitigation for
-     * problems described in {IERC20-approve}.
+     * problems described in {ITRC20-approve}.
      *
      * Emits an {Approval} event indicating the updated allowance.
      *
@@ -955,7 +955,7 @@ abstract contract ERC20 is ClaimableOwnable, Context, IERC20 {
      * `subtractedValue`.
      */
     function decreaseAllowance(address spender, uint256 subtractedValue) public virtual returns (bool) {
-        _approve(_msgSender(), spender, _allowances[_msgSender()][spender].sub(subtractedValue, "ERC20: decreased allowance below zero"));
+        _approve(_msgSender(), spender, _allowances[_msgSender()][spender].sub(subtractedValue, "TRC20: decreased allowance below zero"));
         return true;
     }
 
@@ -974,12 +974,12 @@ abstract contract ERC20 is ClaimableOwnable, Context, IERC20 {
      * - `sender` must have a balance of at least `amount`.
      */
     function _transfer(address sender, address recipient, uint256 amount) internal virtual {
-        require(sender != address(0), "ERC20: transfer from the zero address");
-        require(recipient != address(0), "ERC20: transfer to the zero address");
+        require(sender != address(0), "TRC20: transfer from the zero address");
+        require(recipient != address(0), "TRC20: transfer to the zero address");
 
         _beforeTokenTransfer(sender, recipient, amount);
 
-        _balances[sender] = _balances[sender].sub(amount, "ERC20: transfer amount exceeds balance");
+        _balances[sender] = _balances[sender].sub(amount, "TRC20: transfer amount exceeds balance");
         _balances[recipient] = _balances[recipient].add(amount);
         emit Transfer(sender, recipient, amount);
     }
@@ -994,7 +994,7 @@ abstract contract ERC20 is ClaimableOwnable, Context, IERC20 {
      * - `to` cannot be the zero address.
      */
     function _mint(address account, uint256 amount) internal virtual {
-        require(account != address(0), "ERC20: mint to the zero address");
+        require(account != address(0), "TRC20: mint to the zero address");
 
         _beforeTokenTransfer(address(0), account, amount);
 
@@ -1015,11 +1015,11 @@ abstract contract ERC20 is ClaimableOwnable, Context, IERC20 {
      * - `account` must have at least `amount` tokens.
      */
     function _burn(address account, uint256 amount) internal virtual {
-        require(account != address(0), "ERC20: burn from the zero address");
+        require(account != address(0), "TRC20: burn from the zero address");
 
         _beforeTokenTransfer(account, address(0), amount);
 
-        _balances[account] = _balances[account].sub(amount, "ERC20: burn amount exceeds balance");
+        _balances[account] = _balances[account].sub(amount, "TRC20: burn amount exceeds balance");
         _totalSupply = _totalSupply.sub(amount);
         emit Transfer(account, address(0), amount);
     }
@@ -1038,8 +1038,8 @@ abstract contract ERC20 is ClaimableOwnable, Context, IERC20 {
      * - `spender` cannot be the zero address.
      */
     function _approve(address owner, address spender, uint256 amount) internal virtual {
-        require(owner != address(0), "ERC20: approve from the zero address");
-        require(spender != address(0), "ERC20: approve to the zero address");
+        require(owner != address(0), "TRC20: approve from the zero address");
+        require(spender != address(0), "TRC20: approve to the zero address");
 
         _allowances[owner][spender] = amount;
         emit Approval(owner, spender, amount);
@@ -1067,25 +1067,25 @@ pragma solidity 0.6.0;
 
 /**
  * @title ReclaimerToken
- * @dev ERC20 token which allows owner to reclaim ERC20 tokens
- * or ether sent to this contract
+ * @dev TRC20 token which allows owner to reclaim TRC20 tokens
+ * or trx sent to this contract
  */
-abstract contract ReclaimerToken is ERC20 {
+abstract contract ReclaimerToken is TRC20 {
     /**
-     * @dev send all eth balance in the contract to another address
-     * @param _to address to send eth balance to
+     * @dev send all trx balance in the contract to another address
+     * @param _to address to send trx balance to
      */
-    function reclaimEther(address payable _to) external onlyOwner {
+    function reclaimTrx(address payable _to) external onlyOwner {
         _to.transfer(address(this).balance);
     }
 
     /**
-     * @dev send all token balance of an arbitrary erc20 token
+     * @dev send all token balance of an arbitrary trc20 token
      * in the contract to another address
      * @param token token to reclaim
-     * @param _to address to send eth balance to
+     * @param _to address to send trc20 balance to
      */
-    function reclaimToken(IERC20 token, address _to) external onlyOwner {
+    function reclaimToken(ITRC20 token, address _to) external onlyOwner {
         uint256 balance = token.balanceOf(address(this));
         token.transfer(_to, balance);
     }
@@ -1171,7 +1171,7 @@ pragma solidity 0.6.0;
 
 /**
  * @title TrueCurrency
- * @dev TrueCurrency is an ERC20 with blacklist & redemption addresses
+ * @dev TrueCurrency is an TRC20 with blacklist & redemption addresses
  *
  * TrueCurrency is a compliant stablecoin with blacklist and redemption
  * addresses. Only the owner can blacklist accounts. Redemption addresses
@@ -1202,7 +1202,7 @@ pragma solidity 0.6.0;
  * - canBurn prevents tokens from being sent to the incorrect address
  *
  * Reclaimer Token
- * - ERC20 Tokens and Ether sent to this contract can be reclaimed by the owner
+ * - TRC20 Tokens and Trx sent to this contract can be reclaimed by the owner
  */
 abstract contract TrueCurrency is BurnableTokenWithBounds {
     uint256 constant CENT = 10**16;
@@ -1907,10 +1907,10 @@ contract TokenController {
     }
 
     /**
-     * @dev send all ether in token address to the owner of tokenController
+     * @dev send all trx in token address to the owner of tokenController
      */
-    function requestReclaimEther() external onlyOwner {
-        token.reclaimEther(owner);
+    function requestReclaimTrx() external onlyOwner {
+        token.reclaimTrx(owner);
     }
 
     /**
@@ -1918,7 +1918,7 @@ contract TokenController {
      * owner of tokenController
      * @param _token token address of the token to transfer
      */
-    function requestReclaimToken(IERC20 _token) external onlyOwner {
+    function requestReclaimToken(ITRC20 _token) external onlyOwner {
         token.reclaimToken(_token, owner);
     }
 
@@ -1940,19 +1940,19 @@ contract TokenController {
     }
 
     /**
-     * @dev Owner can send ether balance in contract address
+     * @dev Owner can send trx balance in contract address
      * @param _to address to which the funds will be send to
      */
-    function reclaimEther(address payable _to) external onlyOwner {
+    function reclaimTrx(address payable _to) external onlyOwner {
         _to.transfer(address(this).balance);
     }
 
     /**
-     * @dev Owner can send erc20 token balance in contract address
+     * @dev Owner can send trc20 token balance in contract address
      * @param _token address of the token to send
      * @param _to address to which the funds will be send to
      */
-    function reclaimToken(IERC20 _token, address _to) external onlyOwner {
+    function reclaimToken(ITRC20 _token, address _to) external onlyOwner {
         uint256 balance = _token.balanceOf(address(this));
         _token.transfer(_to, balance);
     }
