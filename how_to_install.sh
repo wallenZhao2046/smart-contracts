@@ -8,3 +8,8 @@ yarn install
 npx ganache-cli -l 0x8954400 --allowUnlimitedContractSize -k istanbul >/dev/null &
 
 npx truffle test
+
+
+########
+### how to run test coverage
+npx truffle run coverage
