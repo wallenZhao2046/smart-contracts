@@ -13,3 +13,5 @@ npx truffle test
 ########
 ### how to run test coverage
 npx truffle run coverage
+
+### 可以记笔记了 !!! 点击 . 键 就可以打开网页版的 VSCode
