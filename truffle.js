@@ -36,7 +36,7 @@ module.exports = {
       gasPrice: 22000000000 // Specified in Wei
     },
     coverage: {
-      host: "localhost",
+      host: "127.0.0.1",
       network_id: "*",
       port: 8525,
       gas: 144000000,
